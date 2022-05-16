@@ -1,7 +1,10 @@
 package services;
 
+import model.HisUser;
 import model.Message;
+import model.Order;
 import model.Usuario;
+import providers.OrderProvider;
 import providers.UsuarioProvider;
 
 import javax.ws.rs.*;
@@ -96,6 +99,30 @@ public class UserServices {
                     .build();
         } catch (SQLException e) {
             e.printStackTrace();
+            return Response.
+                    status(500).
+                    entity(new Message("operacion fallida")).
+                    header("Content-Type","application/json").
+                    build();
+        }
+    }
+    //____________________________________________________________________
+    @GET
+    @Path("HistoryUser/{cedula}")
+    public Response usurioHistory(@PathParam("cedula") int cedula){
+        try {
+            UsuarioProvider provider = new UsuarioProvider();
+            OrderProvider provider1= new OrderProvider();
+            Usuario usuario = provider.infoUserBynit(cedula);
+            ArrayList<Order> orders = provider1.getOrderByID(usuario.getId());
+            HisUser history = new HisUser(usuario.getId(), orders);
+
+            return Response
+                    .ok(history)
+                    .header("Content-Type","application/json")
+                    .build();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
             return Response.
                     status(500).
                     entity(new Message("operacion fallida")).

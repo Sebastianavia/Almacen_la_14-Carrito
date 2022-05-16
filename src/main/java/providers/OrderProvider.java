@@ -1,11 +1,14 @@
 package providers;
 
 import db.DBConnection;
+import model.InformationOrder;
 import model.Order;
+
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+import java.util.ArrayList;
+import java.util.Date;
 
 
 public class OrderProvider {
@@ -14,6 +17,7 @@ public class OrderProvider {
         String sql= "INSERT INTO orden(pago_no_si,fecha_creacion,fecha_pago,userId) VALUES ('$PAGO_NO_SI',$FECHA_CREACION,$FECHA_PAGO,$USERID)";
         order.setPago_no_si("No");
         sql = sql.replace("$PAGO_NO_SI",order.getPago_no_si());
+        order.setFecha_creacion(new Date().getTime());
         sql = sql.replace("$FECHA_CREACION",""+order.getFecha_creacion());
         sql = sql.replace("$FECHA_PAGO",""+order.getFecha_pago());
         sql = sql.replace("$USERID",String.valueOf(order.getUserId()));
@@ -94,6 +98,37 @@ public class OrderProvider {
         connection.disconnect();
         return order;
     }
+
+    public ArrayList<Order> getOrderByID(int idOrden) throws SQLException {
+
+        ArrayList<Order> orderArray = new ArrayList<>();
+
+
+
+        String sql = "SELECT * FROM orden";
+        DBConnection connection = new DBConnection();
+        connection.connect();
+
+        ResultSet resultSet = connection.getDataBySQL(sql);
+        while (resultSet.next()){
+            int id=resultSet.getInt(resultSet.findColumn("id"));
+            String pago_no_si =resultSet.getString(resultSet.findColumn("pago_no_si"));
+            long fecha_creacion=resultSet.getLong(resultSet.findColumn("fecha_creacion"));
+            long fecha_pago=resultSet.getLong(resultSet.findColumn("fecha_pago"));
+            int userId=resultSet.getInt(resultSet.findColumn("userId"));
+            if(userId==idOrden){
+              Order order = new Order(id, pago_no_si, fecha_creacion, fecha_pago,userId);
+              orderArray.add(order);
+            }
+        }
+
+        connection.disconnect();
+        return orderArray;
+    }
+
+
+
+
 
 
 }

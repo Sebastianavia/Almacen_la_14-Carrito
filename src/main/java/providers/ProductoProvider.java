@@ -65,5 +65,26 @@ public class ProductoProvider {
         return price;
     }
 
+    public ArrayList<Producto> getAllProducts() throws SQLException {
+        ArrayList<Producto> output = new ArrayList<>();
+
+        String sql = "SELECT * FROM producto";
+        DBConnection connection = new DBConnection();
+        connection.connect();
+
+        ResultSet resultSet = connection.getDataBySQL(sql);
+        while (resultSet.next()){
+            int id=resultSet.getInt(resultSet.findColumn("id"));
+            String nombre =resultSet.getString(resultSet.findColumn("nombre"));
+            int precio=resultSet.getInt(resultSet.findColumn("precio"));
+
+            Producto producto = new Producto(id, nombre, precio);
+            output.add(producto);
+        }
+
+        connection.disconnect();
+        return output;
+    }
+
 
 }

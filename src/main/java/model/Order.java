@@ -12,6 +12,7 @@ public class Order {
 
 
 
+
     public Order() {
 
     }
@@ -23,6 +24,8 @@ public class Order {
         this.fecha_pago = fecha_pago;
         this.userId = userId;
     }
+
+
 
     public int getId() {
         return id;
@@ -39,7 +42,7 @@ public class Order {
     public void setPago_no_si(String pago_no_si) {
 
         if(pago_no_si.startsWith("S")){
-            fecha_pago = new Date().getTime();;
+            fecha_pago = new Date().getTime();
         }else if(pago_no_si.startsWith("N")){
             fecha_pago = 0;
         }
@@ -47,7 +50,7 @@ public class Order {
     }
 
     public long getFecha_creacion() {
-        fecha_creacion = new Date().getTime();
+
         return fecha_creacion;
     }
 
@@ -71,4 +74,7 @@ public class Order {
     public void setUserId(int userId) {
         this.userId = userId;
     }
+
+
+
 }

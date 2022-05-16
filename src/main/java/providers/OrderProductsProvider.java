@@ -1,9 +1,11 @@
 package providers;
 
 import db.DBConnection;
+import model.InformationOrder;
 import model.Order;
 import model.Order_Products;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class OrderProductsProvider {
@@ -46,5 +48,33 @@ public class OrderProductsProvider {
         connection.connect();
         connection.commandSQL(sql);
         connection.disconnect();
+    }
+
+    //Cambiar despues, para q me retorne
+    public void InformationOrder(int idP) throws SQLException {
+
+        InformationOrder informationOrder = new InformationOrder();
+        ProductoProvider productoProvider = new ProductoProvider();
+
+        String sql = "SELECT * FROM orden";
+        DBConnection connection = new DBConnection();
+        connection.connect();
+
+        //
+        ResultSet resultSet = connection.getDataBySQL(sql);
+        while (resultSet.next()){
+            int id = resultSet.getInt(resultSet.findColumn("id"));
+            int productoID = resultSet.getInt(resultSet.findColumn("productoID"));
+            int ordenID = resultSet.getInt(resultSet.findColumn("ordenID"));
+            int cantidad_Producto = resultSet.getInt(resultSet.findColumn("cantidad_Producto"));
+            int precio_total = resultSet.getInt(resultSet.findColumn("precio_total"));
+            if(ordenID==idP){
+
+            }
+        }
+
+        connection.disconnect();
+
+        // return informationOrder;
     }
 }

@@ -44,6 +44,7 @@ public class UsuarioProvider {
     return output;
     }
 
+
     public void editUsuario(Usuario usuario) throws SQLException {
 
         String sql= "UPDATE usuario SET nombre ='$NOMBRE', , cedula = '$CEDULA' WHERE id=$IDs";
@@ -63,6 +64,31 @@ public class UsuarioProvider {
         connection.connect();
         connection.commandSQL(sql);
         connection.disconnect();
+    }
+    //posible no funcione?____________________________________________________________________
+        public Usuario infoUserBynit(int cedulaCho) throws SQLException {
+
+            Usuario usuario = new Usuario();
+        String sql = "SELECT * FROM usuario";
+        DBConnection connection =  new DBConnection();
+        connection.connect();
+        ResultSet resultSet =  connection.getDataBySQL(sql);
+
+        while(resultSet.next()){
+            int id = resultSet.getInt(resultSet.findColumn("id"));
+            String nombre = resultSet.getString(resultSet.findColumn("nombre"));
+            int cedula = resultSet.getInt(resultSet.findColumn("cedula"));
+
+            if(cedula == cedulaCho){
+                usuario.setId(id);
+                usuario.setNombre(nombre);
+                usuario.setCedula(cedula);
+            }
+
+        }
+
+        connection.disconnect();
+        return usuario;
     }
 
 }
