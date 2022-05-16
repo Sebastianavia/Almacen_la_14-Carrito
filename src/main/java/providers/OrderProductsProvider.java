@@ -4,6 +4,7 @@ import db.DBConnection;
 import model.InformationOrder;
 import model.Order;
 import model.Order_Products;
+import model.Producto;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -51,7 +52,7 @@ public class OrderProductsProvider {
     }
 
     //Cambiar despues, para q me retorne
-    public void InformationOrder(int idP) throws SQLException {
+   /* public void InformationOrder(int idP) throws SQLException {
 
         InformationOrder informationOrder = new InformationOrder();
         ProductoProvider productoProvider = new ProductoProvider();
@@ -75,6 +76,39 @@ public class OrderProductsProvider {
 
         connection.disconnect();
 
-        // return informationOrder;
-    }
+        // return informationOrder;*/
+
+
+        public InformationOrder orderInfo(int idInfo) throws SQLException {
+
+            int totalPrecio = 0;
+            int totalProducto = 0;
+            InformationOrder orderIn = new InformationOrder();
+            ProductoProvider provider = new ProductoProvider();
+            Producto producto;
+            String sql = "SELECT * FROM orden_producto";
+            DBConnection connection = new DBConnection();
+            connection.connect();
+            ResultSet resultSet = connection.getDataBySQL(sql);
+            while (resultSet.next()) {
+                int id = resultSet.getInt(resultSet.findColumn("id"));
+                int productoID = resultSet.getInt(resultSet.findColumn("productoID"));
+                int ordenID = resultSet.getInt(resultSet.findColumn("ordenID"));
+                int cantidad_Producto = resultSet.getInt(resultSet.findColumn("cantidad_Producto"));
+                int precio_total = resultSet.getInt(resultSet.findColumn("precio_total"));
+                if (ordenID == idInfo) {
+                    orderIn.setId(ordenID);
+                    totalPrecio = precio_total + totalPrecio;
+                    totalProducto = cantidad_Producto + totalProducto;
+                    producto = provider.getAllProductsCantidad(productoID, cantidad_Producto);
+                    orderIn.addOrden(producto);
+
+                    orderIn.setPrice(totalPrecio);
+                    orderIn.setTotalElements(totalProducto);
+                }
+            }
+            connection.disconnect();
+            return orderIn;
+        }
+
 }

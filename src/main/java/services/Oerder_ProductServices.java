@@ -1,15 +1,15 @@
 package services;
 
+import model.InformationOrder;
 import model.Message;
 import model.Order_Products;
 import model.Usuario;
 import providers.OrderProductsProvider;
+import providers.OrderProvider;
 import providers.ProductoProvider;
 import providers.UsuarioProvider;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.sql.SQLException;
 
@@ -37,5 +37,24 @@ public class Oerder_ProductServices {
             return Response.status(500).entity(new Message("operacion fallida")).header("Content-Type","application/json").build();
 
         }
+    }
+
+
+    @GET
+    @Path("infoOrder/{id}")
+    @Consumes("application/json")
+    public javax.ws.rs.core.Response obtainByID(@PathParam("id") int id){
+        try {
+            OrderProductsProvider ordenProduct = new OrderProductsProvider();
+            InformationOrder informationOrder = ordenProduct.orderInfo(id);
+            return javax.ws.rs.core.Response
+                    .ok(informationOrder)
+                    .header("Content-Type","application/json")
+                    .build();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+            return Response.status(500).entity(new Message("operacion fallida")).header("Content-Type","application/json").build();
+        }
+
     }
 }

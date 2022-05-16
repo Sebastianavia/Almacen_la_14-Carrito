@@ -65,7 +65,7 @@ public class UsuarioProvider {
         connection.commandSQL(sql);
         connection.disconnect();
     }
-    //posible no funcione?____________________________________________________________________
+
         public Usuario infoUserBynit(int cedulaCho) throws SQLException {
 
             Usuario usuario = new Usuario();

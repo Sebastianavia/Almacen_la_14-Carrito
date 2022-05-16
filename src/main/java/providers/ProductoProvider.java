@@ -86,5 +86,33 @@ public class ProductoProvider {
         return output;
     }
 
+    public Producto getAllProductsCantidad(int idProducto, int cantidad) throws SQLException {
+
+        Producto producto = new Producto();
+
+
+        String sql = "SELECT * FROM producto";
+        DBConnection connection = new DBConnection();
+        connection.connect();
+
+        ResultSet resultSet = connection.getDataBySQL(sql);
+        while (resultSet.next()){
+            int id=resultSet.getInt(resultSet.findColumn("id"));
+            String nombre =resultSet.getString(resultSet.findColumn("nombre"));
+            int precio=resultSet.getInt(resultSet.findColumn("precio"));
+
+            if (id==idProducto){
+
+                producto.setId(id);
+                producto.setNombre(nombre);
+                producto.setPrecio(precio);
+                producto.setCantidad(cantidad);
+            }
+        }
+
+        connection.disconnect();
+        return producto;
+    }
+
 
 }

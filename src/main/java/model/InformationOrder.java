@@ -19,6 +19,10 @@ public class InformationOrder {
         this.oredrProducts = oredrProducts;
     }
 
+    public void addOrden(Producto producto){
+        oredrProducts.add(producto);
+    }
+
     public int getId() {
         return Id;
     }

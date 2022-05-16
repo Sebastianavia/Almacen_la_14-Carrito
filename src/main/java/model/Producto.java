@@ -5,6 +5,7 @@ public class Producto {
     private int id;
     private String nombre;
     private int precio;
+    private int cantidad;
 
     public Producto() {
     }
@@ -37,5 +38,13 @@ public class Producto {
 
     public void setPrecio(int precio) {
         this.precio = precio;
+    }
+
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
     }
 }
